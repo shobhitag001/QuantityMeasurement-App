@@ -1,35 +1,18 @@
-public class QuantityMeasurement936 {
+public class QuantityMeasurement936{
 
-    // Inner class for Feet measurement
+    // ===== Feet Class =====
     static class Feet {
         private final double value;
 
-        // Constructor
         public Feet(double value) {
             this.value = value;
         }
 
-        public double getValue() {
-            return value;
-        }
-
-        // Override equals method
         @Override
         public boolean equals(Object obj) {
-            // Same reference
-            if (this == obj) {
-                return true;
-            }
-
-            // Null or different class
-            if (obj == null || getClass() != obj.getClass()) {
-                return false;
-            }
-
-            // Cast
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
             Feet other = (Feet) obj;
-
-            // Compare values
             return Double.compare(this.value, other.value) == 0;
         }
 
@@ -39,30 +22,68 @@ public class QuantityMeasurement936 {
         }
     }
 
-    // Simple test runner (instead of JUnit)
+    // ===== Inches Class =====
+    static class Inches {
+        private final double value;
+
+        public Inches(double value) {
+            this.value = value;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            Inches other = (Inches) obj;
+            return Double.compare(this.value, other.value) == 0;
+        }
+
+        @Override
+        public int hashCode() {
+            return Double.hashCode(value);
+        }
+    }
+
+    // ===== Static Methods (as per UC2 requirement) =====
+    public static boolean compareFeet(double v1, double v2) {
+        Feet f1 = new Feet(v1);
+        Feet f2 = new Feet(v2);
+        return f1.equals(f2);
+    }
+
+    public static boolean compareInches(double v1, double v2) {
+        Inches i1 = new Inches(v1);
+        Inches i2 = new Inches(v2);
+        return i1.equals(i2);
+    }
+
+    // ===== Main Method =====
     public static void main(String[] args) {
 
-        Feet f1 = new Feet(1.0);
-        Feet f2 = new Feet(1.0);
-        Feet f3 = new Feet(2.0);
+        // Feet Tests
+        System.out.println("Feet Same Value: " + compareFeet(1.0, 1.0)); // true
+        System.out.println("Feet Different Value: " + compareFeet(1.0, 2.0)); // false
 
-        // Test: Same Value
-        System.out.println("Test Same Value: " + f1.equals(f2)); // true
+        // Inches Tests
+        System.out.println("Inches Same Value: " + compareInches(1.0, 1.0)); // true
+        System.out.println("Inches Different Value: " + compareInches(1.0, 2.0)); // false
 
-        // Test: Different Value
-        System.out.println("Test Different Value: " + f1.equals(f3)); // false
+        // Null & Type Safety Checks
+        Feet f = new Feet(1.0);
+        System.out.println("Feet Null Check: " + f.equals(null)); // false
+        System.out.println("Feet Non-Type Check: " + f.equals("string")); // false
+        System.out.println("Feet Same Reference: " + f.equals(f)); // true
 
-        // Test: Null Comparison
-        System.out.println("Test Null Comparison: " + f1.equals(null)); // false
+        Inches i = new Inches(1.0);
+        System.out.println("Inches Null Check: " + i.equals(null)); // false
+        System.out.println("Inches Non-Type Check: " + i.equals(10)); // false
+        System.out.println("Inches Same Reference: " + i.equals(i)); // true
 
-        // Test: Non-Feet Object
-        System.out.println("Test Non-Numeric Input: " + f1.equals("string")); // false
+        // Example Output Format
+        System.out.println("\nInput: 1.0 inch and 1.0 inch");
+        System.out.println("Output: Equal (" + compareInches(1.0, 1.0) + ")");
 
-        // Test: Same Reference
-        System.out.println("Test Same Reference: " + f1.equals(f1)); // true
-
-        // Example Output
-        System.out.println("\nInput: 1.0 ft and 1.0 ft");
-        System.out.println("Output: Equal (" + f1.equals(f2) + ")");
+        System.out.println("Input: 1.0 ft and 1.0 ft");
+        System.out.println("Output: Equal (" + compareFeet(1.0, 1.0) + ")");
     }
 }
